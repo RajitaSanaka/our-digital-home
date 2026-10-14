@@ -1,29 +1,42 @@
-# Welcome to your Lovable project
+# BharatRoots AI
 
-This project was built with [Lovable](https://lovable.dev).
+**Discover India's Heritage. Empower Local Entrepreneurs.**
 
-## Build with Lovable
+BharatRoots AI is a demonstration platform that promotes Indian traditional products,
+supports local artisans, and helps aspiring entrepreneurs start and grow their businesses.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+## Pages
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Home (`/`)** — hero, featured crafts, platform overview, demo statistics.
+- **Explore Heritage (`/explore`)** — searchable/filterable catalogue of traditional Indian
+  products with product detail pages (`/explore/:id`), favourites, share buttons, and a
+  craft-region search.
+- **Entrepreneur Dashboard (`/dashboard`)** — business ideas, a step-by-step startup
+  checklist (progress saved locally), supplier/mentor guidance, webinars, marketing and
+  growth tips.
+- **AI Business Assistant (`/assistant`)** — a clearly-labelled **demo** assistant that
+  builds a structured business plan from predefined templates (not a real AI model).
 
-## Development
+## Tech stack
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- React 19 + TanStack Start (SSR), Vite, Tailwind CSS v4
+- No backend or environment variables required — all data is sample content; favourites
+  and checklist progress are stored in `localStorage`.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+## Setup
+
+```bash
+bun install   # or npm install
+bun dev       # or npm run dev
 ```
 
-## Built with
+## Deploy / GitHub
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+Push this repository to GitHub and import it into your hosting provider of choice
+(e.g. publish directly from Lovable). No secrets or environment variables are needed.
+
+## Notes
+
+- All products, prices, statistics, events and assistant responses are illustrative
+  demonstration data.
+- No real seller addresses, vendors, authentication or payments are included.
