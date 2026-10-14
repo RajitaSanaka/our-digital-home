@@ -5,7 +5,7 @@ import { CATEGORIES, PRODUCTS, STATES } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { useFavourites } from "@/lib/favorites";
 
-export const Route = createFileRoute("/explore")({
+export const Route = createFileRoute("/explore/")({
   head: () => ({
     meta: [
       { title: "Explore Indian Heritage — BharatRoots AI" },
