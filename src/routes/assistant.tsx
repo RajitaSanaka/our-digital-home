@@ -45,7 +45,7 @@ function budgetAdvice(budget: string): string {
 }
 
 function AssistantPage() {
-  const [form, setForm] = useState<FormState>({ idea: "", category: CATEGORIES[0], budget: BUDGETS[0], customers: "", location: "" });
+  const [form, setForm] = useState<FormState>({ idea: "", category: CATEGORIES[0] ?? "", budget: BUDGETS[0] ?? "", customers: "", location: "" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FormState | null>(null);
   const [error, setError] = useState("");
@@ -71,7 +71,7 @@ function AssistantPage() {
 
   const reset = () => {
     setResult(null);
-    setForm({ idea: "", category: CATEGORIES[0], budget: BUDGETS[0], customers: "", location: "" });
+    setForm({ idea: "", category: CATEGORIES[0] ?? "", budget: BUDGETS[0] ?? "", customers: "", location: "" });
   };
 
   return (
