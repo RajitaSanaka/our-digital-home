@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep static educational catalogue rows in `src/data/catalogue.ts` and normalize profiles in `src/data/products.ts`; this preserves original craft IDs and avoids suggesting unverified commerce data is live.
+- Use the shared `CatalogueGrid` and pure catalogue filtering helper for all-product and collection pages so search, ranking, favourites and progressive loading behave consistently.
+- Collection pages use `/collections/$collectionId`, while existing product detail URLs stay under `/explore/$productId`, preserving navigation and saved links.
+- Product sharing uses the shared helper to handle native-share cancellation and clipboard failures consistently.
+- Favourites notify all hooks through a same-window event as well as the storage event so card actions and catalogue filters stay synchronized without changing existing browser persistence.

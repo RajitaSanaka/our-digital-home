@@ -5,6 +5,8 @@ import bluePottery from "@/assets/blue-pottery.jpg";
 import madhubani from "@/assets/madhubani.jpg";
 import channapatna from "@/assets/channapatna.jpg";
 import banarasi from "@/assets/banarasi.jpg";
+import { CATALOGUE_ROWS } from "./catalogue";
+export { COLLECTIONS } from "./catalogue";
 
 export interface Product {
   id: string;
@@ -17,9 +19,16 @@ export interface Product {
   method: string;
   image: string;
   price: string;
+  demoPrice: number;
+  popularity: number;
+  likes: number;
+  traditionalRank: number;
+  addedOrder: number;
+  productType: string;
+  collections: string[];
 }
 
-export const PRODUCTS: Product[] = [
+const ORIGINAL_PRODUCTS: Omit<Product, "demoPrice" | "popularity" | "likes" | "traditionalRank" | "addedOrder" | "productType" | "collections">[] = [
   {
     id: "kalamkari-textiles",
     name: "Kalamkari Hand-Painted Textiles",
@@ -127,5 +136,23 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
-export const STATES = [...new Set(PRODUCTS.map((p) => p.state))];
-export const CATEGORIES = [...new Set(PRODUCTS.map((p) => p.category))];
+const craftImages = import.meta.glob<string>("../assets/crafts/*.jpg", { eager: true, import: "default", query: "?url" });
+const originalCollections = ["cotton-clothing", "wooden-handcrafted-toys", "royal-handloom-silk", "pottery-ceramic", "paintings-artwork", "wooden-handcrafted-toys", "royal-handloom-silk"];
+const originalDemoPrices = [2400, 350, 3500, 500, 800, 250, 8000];
+const samples = [
+  ...ORIGINAL_PRODUCTS.map((p, i) => ({ ...p, demoPrice: originalDemoPrices[i] ?? 500, collections: [originalCollections[i] ?? "gifts-souvenirs"] })),
+  ...CATALOGUE_ROWS.map((p) => ({ ...p, id: p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-$/, ""), image: craftImages[`../assets/crafts/${p.image}.jpg`] ?? kalamkari, price: "", collections: [p.collection] })),
+];
+export const PRODUCTS: Product[] = samples.map((p, i) => ({
+  ...p,
+  price: `₹${p.demoPrice.toLocaleString("en-IN")} · sample price`,
+  popularity: (i * 37 + 53) % 101,
+  likes: (i * 29 + 17) % 250,
+  traditionalRank: (i * 13 + 71) % 101,
+  addedOrder: i,
+  productType: ["Regional Foods", "Sweets & Snacks", "Spices & Agriculture"].includes(p.category) ? "Food & pantry" : p.category === "Textiles" ? "Clothing & textiles" : ["Jewellery", "Bags & Accessories", "Leather & Footwear"].includes(p.category) ? "Wearable accessories" : p.category === "Musical Instruments" ? "Musical instruments" : "Crafts & home",
+  collections: [...new Set([...p.collections, ...(p.demoPrice >= 8000 ? ["premium-luxury"] : []), ...(p.demoPrice <= 600 ? ["affordable-everyday"] : []), ...(["Toys & Decor", "Art & Paintings", "Jewellery"].includes(p.category) ? ["gifts-souvenirs"] : [])])],
+}));
+export const STATES = [...new Set(PRODUCTS.map((p) => p.state))].sort();
+export const CATEGORIES = [...new Set(PRODUCTS.map((p) => p.category))].sort();
+export const PRODUCT_TYPES = [...new Set(PRODUCTS.map((p) => p.productType))].sort();
