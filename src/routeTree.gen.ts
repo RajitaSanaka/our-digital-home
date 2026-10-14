@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
 import { Route as ExploreProductIdRouteImport } from './routes/explore.$productId'
@@ -17,6 +18,11 @@ import { Route as ExploreProductIdRouteImport } from './routes/explore.$productI
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -37,12 +43,14 @@ const ExploreProductIdRoute = ExploreProductIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore/': typeof ExploreIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore': typeof ExploreIndexRoute
@@ -50,20 +58,29 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore/': typeof ExploreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/explore/$productId' | '/explore/'
+  fullPaths:
+    '/' | '/assistant' | '/dashboard' | '/explore/$productId' | '/explore/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/explore/$productId' | '/explore'
-  id: '__root__' | '/' | '/dashboard' | '/explore/$productId' | '/explore/'
+  to: '/' | '/assistant' | '/dashboard' | '/explore/$productId' | '/explore'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/explore/$productId'
+    | '/explore/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   DashboardRoute: typeof DashboardRoute
   ExploreProductIdRoute: typeof ExploreProductIdRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
@@ -76,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -104,6 +128,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   DashboardRoute: DashboardRoute,
   ExploreProductIdRoute: ExploreProductIdRoute,
   ExploreIndexRoute: ExploreIndexRoute,
