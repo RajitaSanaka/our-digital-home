@@ -13,3 +13,4 @@
 - Use the shared `CatalogueGrid` and pure catalogue filtering helper for all-product and collection pages so search, ranking, favourites and progressive loading behave consistently.
 - Collection pages use `/collections/$collectionId`, while existing product detail URLs stay under `/explore/$productId`, preserving navigation and saved links.
 - Product sharing uses the shared helper to handle native-share cancellation and clipboard failures consistently.
+- Favourites notify all hooks through a same-window event as well as the storage event so card actions and catalogue filters stay synchronized without changing existing browser persistence.
