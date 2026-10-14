@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Compass, HandHeart, Rocket, Sparkles, Users } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, STATES, COLLECTIONS } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/")({
@@ -26,9 +26,9 @@ export const Route = createFileRoute("/")({
 });
 
 const STATS = [
-  { value: "7", label: "Craft traditions showcased" },
-  { value: "28+", label: "States & UTs represented (demo)" },
-  { value: "120+", label: "Artisan stories to be featured (demo)" },
+  { value: String(PRODUCTS.length), label: "Sample heritage products" },
+  { value: String(STATES.length), label: "States & UTs represented" },
+  { value: String(COLLECTIONS.length), label: "Heritage collections" },
   { value: "6", label: "Step startup roadmap" },
 ];
 

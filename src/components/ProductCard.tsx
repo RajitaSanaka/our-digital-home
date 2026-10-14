@@ -1,27 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Heart, MapPin, Share2 } from "lucide-react";
-import { toast } from "sonner";
 import type { Product } from "@/data/products";
 import { useFavourites } from "@/lib/favorites";
+import { Button } from "@/components/ui/button";
+import { shareProduct } from "@/lib/share";
 
 export function ProductCard({ product }: { product: Product }) {
   const { isFavourite, toggle } = useFavourites();
   const fav = isFavourite(product.id);
 
-  const share = async () => {
-    const url = `${window.location.origin}/explore/${product.id}`;
-    const text = `${product.name} — ${product.state} | BharatRoots AI`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: product.name, text, url });
-        return;
-      } catch {
-        /* user cancelled */
-      }
-    }
-    await navigator.clipboard.writeText(url);
-    toast.success("Link copied to clipboard");
-  };
+  const share = () => shareProduct(product.name, `${window.location.origin}/explore/${product.id}`);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-warm transition-transform hover:-translate-y-1">
@@ -53,29 +41,34 @@ export function ProductCard({ product }: { product: Product }) {
             {product.name}
           </Link>
           <div className="flex shrink-0 gap-1">
-            <button
+            <Button variant="ghost" size="icon"
               onClick={() => toggle(product.id)}
               aria-label={fav ? "Remove from favourites" : "Add to favourites"}
+              aria-pressed={fav}
+              title={fav ? "Remove from favourites" : "Add to favourites"}
               className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-accent"
             >
               <Heart className={`h-5 w-5 ${fav ? "fill-accent text-accent" : ""}`} />
-            </button>
-            <button
+            </Button>
+            <Button variant="ghost" size="icon"
               onClick={share}
               aria-label="Share product"
+              title="Share product"
               className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
             >
               <Share2 className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
         </div>
 
         <p className="mt-1 flex items-center gap-1 text-xs font-medium text-accent">
           <MapPin className="h-3.5 w-3.5" /> {product.state}
         </p>
+        <p className="mt-2 text-xs text-muted-foreground">{product.materials.join(" · ")}</p>
         <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{product.description}</p>
 
-        <div className="mt-auto flex items-center justify-between pt-4">
+        <p className="mt-3 text-[11px] text-muted-foreground">Sample product · illustrative image</p>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
           <span className="text-sm font-semibold text-primary">{product.price}</span>
           <Link
             to="/explore/$productId"

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CollectionsCollectionIdRouteImport } from './routes/collections.$collectionId'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
 import { Route as ExploreProductIdRouteImport } from './routes/explore.$productId'
 
@@ -30,6 +31,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsCollectionIdRoute = CollectionsCollectionIdRouteImport.update({
+  id: '/collections/$collectionId',
+  path: '/collections/$collectionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExploreIndexRoute = ExploreIndexRouteImport.update({
   id: '/explore/',
   path: '/explore/',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore/': typeof ExploreIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore': typeof ExploreIndexRoute
 }
@@ -60,20 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
+  '/collections/$collectionId': typeof CollectionsCollectionIdRoute
   '/explore/$productId': typeof ExploreProductIdRoute
   '/explore/': typeof ExploreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/assistant' | '/dashboard' | '/explore/$productId' | '/explore/'
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/collections/$collectionId'
+    | '/explore/$productId'
+    | '/explore/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/assistant' | '/dashboard' | '/explore/$productId' | '/explore'
+  to:
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/collections/$collectionId'
+    | '/explore/$productId'
+    | '/explore'
   id:
     | '__root__'
     | '/'
     | '/assistant'
     | '/dashboard'
+    | '/collections/$collectionId'
     | '/explore/$productId'
     | '/explore/'
   fileRoutesById: FileRoutesById
@@ -82,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssistantRoute: typeof AssistantRoute
   DashboardRoute: typeof DashboardRoute
+  CollectionsCollectionIdRoute: typeof CollectionsCollectionIdRoute
   ExploreProductIdRoute: typeof ExploreProductIdRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
 }
@@ -109,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections/$collectionId': {
+      id: '/collections/$collectionId'
+      path: '/collections/$collectionId'
+      fullPath: '/collections/$collectionId'
+      preLoaderRoute: typeof CollectionsCollectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/explore/': {
       id: '/explore/'
       path: '/explore'
@@ -130,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistantRoute: AssistantRoute,
   DashboardRoute: DashboardRoute,
+  CollectionsCollectionIdRoute: CollectionsCollectionIdRoute,
   ExploreProductIdRoute: ExploreProductIdRoute,
   ExploreIndexRoute: ExploreIndexRoute,
 }

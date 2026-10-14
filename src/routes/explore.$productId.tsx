@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Hammer, Heart, Landmark, Layers, MapPin, Share2 } from "lucide-react";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { shareProduct } from "@/lib/share";
 import { PRODUCTS } from "@/data/products";
 import { useFavourites } from "@/lib/favorites";
 import { ProductCard } from "@/components/ProductCard";
@@ -47,19 +48,7 @@ function ProductDetail() {
     (p) => p.id !== product.id && (p.state === product.state || p.category === product.category),
   ).slice(0, 3);
 
-  const share = async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: product.name, url });
-        return;
-      } catch {
-        /* cancelled */
-      }
-    }
-    await navigator.clipboard.writeText(url);
-    toast.success("Link copied to clipboard");
-  };
+  const share = () => shareProduct(product.name, window.location.href);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
@@ -69,7 +58,7 @@ function ProductDetail() {
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
         <div className="overflow-hidden rounded-3xl border border-border shadow-warm-lg">
-          <img src={product.image} alt={product.name} width={1024} height={1024} className="h-full w-full object-cover" />
+          <img src={product.image} alt={product.name} width={1024} height={1024} className="aspect-square w-full object-cover" />
         </div>
 
         <div className="animate-fade-up">
@@ -82,25 +71,27 @@ function ProductDetail() {
           </p>
           <p className="mt-4 text-muted-foreground">{product.description}</p>
           <p className="mt-4 text-lg font-semibold text-primary">
-            {product.price} <span className="text-xs font-normal text-muted-foreground">(indicative market range)</span>
+            {product.price} <span className="text-xs font-normal text-muted-foreground">(illustrative, not a real offer)</span>
           </p>
 
-          <div className="mt-6 flex gap-3">
-            <button
+          <p className="mt-3 text-sm text-muted-foreground">Sample product · illustrative image. No verified seller, rating or availability. Cultural descriptions are educational, not certification of this sample.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button variant="outline"
               onClick={() => toggle(product.id)}
+              aria-pressed={fav}
               className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
                 fav ? "bg-accent text-accent-foreground" : "border border-input bg-card text-foreground hover:bg-secondary"
               }`}
             >
               <Heart className={`h-4 w-4 ${fav ? "fill-current" : ""}`} />
               {fav ? "Saved to favourites" : "Add to favourites"}
-            </button>
-            <button
+            </Button>
+            <Button variant="outline"
               onClick={share}
               className="inline-flex items-center gap-2 rounded-full border border-input bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary"
             >
               <Share2 className="h-4 w-4" /> Share
-            </button>
+            </Button>
           </div>
 
           <div className="mt-8 space-y-4">
